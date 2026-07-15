@@ -6,7 +6,7 @@ import csv
 # Test 1: Basic CSV reading
 print("Test 1: Reading CSV file directly...")
 try:
-    with open('TanishqChamoli-2026.csv', 'r') as f:
+    with open('IshitaChamoli-2026.csv', 'r') as f:
         reader = csv.DictReader(f)
         rows = list(reader)
     print(f"✓ Successfully read {len(rows)} transactions")

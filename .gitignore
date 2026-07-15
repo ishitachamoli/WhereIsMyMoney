@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Environment
+.env
+*.env.local
+
+# IDE
+.vscode/
+.idea/
+.roko/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+.next/
+out/
+.npm
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Database
+*.db
+*.db-journal
+*.db-wal
+*.sqlite3
+
+# Personal bank statements
+*.xls
+*.csv
+
+# Investigations / design docs
+Investigations/
+
+# Feedback data
+data/
+backend/data/
+
+# Uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Docker
+postgres_data/
+
+# Logs
+*.log
+
+# Build/runtime artifacts
+backend/.pylibs/
+
+# Generated docs
+*.generated.md

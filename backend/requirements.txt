@@ -1,0 +1,36 @@
+# Core framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# Database
+sqlalchemy==2.0.25
+alembic==1.13.1
+psycopg2-binary==2.9.9
+pysqlite3-binary==0.5.4.post2
+
+# Data parsing
+pandas==2.1.4
+pdfplumber==0.10.3
+openpyxl==3.1.2
+xlrd==2.0.1
+
+# Classification - ML (Tier 2: HuggingFace zero-shot)
+transformers>=4.35.0
+torch>=2.0.0
+numpy>=1.24.0
+scikit-learn==1.4.0
+
+# Classification - LLM (optional, for Tier 3 via Ollama)
+httpx==0.26.0
+
+# Authentication
+bcrypt==4.0.1
+python-jose[cryptography]==3.3.0
+
+# Testing
+pytest==7.4.4
+pytest-asyncio==0.23.3

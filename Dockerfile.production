@@ -1,0 +1,54 @@
+# Multi-stage production Dockerfile for Railway deployment
+# Builds both frontend (static) and backend (API) into a single container
+
+# ── Stage 1: Build frontend ──────────────────────────────────────────────────
+FROM node:18-alpine AS frontend-builder
+
+WORKDIR /frontend
+
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm ci --production=false
+
+COPY frontend/ .
+
+# Set the API URL for production build (overridden by Railway env var)
+ARG NEXT_PUBLIC_API_URL=""
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
+RUN npm run build
+
+# ── Stage 2: Python backend + serve frontend static files ────────────────────
+FROM python:3.11-slim AS production
+
+WORKDIR /app
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies (lite - no ML model download in prod)
+COPY backend/requirements-lite.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy backend application
+COPY backend/ .
+
+# Copy built frontend to serve as static (Next.js standalone output)
+COPY --from=frontend-builder /frontend/.next/standalone /frontend
+COPY --from=frontend-builder /frontend/.next/static /frontend/.next/static
+COPY --from=frontend-builder /frontend/public /frontend/public
+
+# Create necessary directories
+RUN mkdir -p uploads data/feedback
+
+# HuggingFace model cache directory (persists across requests within container)
+ENV TRANSFORMERS_CACHE=/app/.cache
+RUN mkdir -p /app/.cache
+
+EXPOSE 8000
+
+# Start the FastAPI backend (frontend served separately or via reverse proxy)
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

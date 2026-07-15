@@ -23,7 +23,7 @@ except Exception as e:
 print("\nTest 2: Reading with pandas...")
 try:
     import pandas as pd
-    df = pd.read_csv('TanishqChamoli-2026.csv')
+    df = pd.read_csv('IshitaChamoli-2026.csv')
     print(f"✓ Pandas parsed {len(df)} rows, {len(df.columns)} columns")
     print(f"✓ Column dtypes:")
     for col in df.columns:
